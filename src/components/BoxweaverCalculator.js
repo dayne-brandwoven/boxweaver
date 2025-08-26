@@ -3,7 +3,6 @@ import { Upload, Download, Play, Box, FileSpreadsheet, Settings } from 'lucide-r
 import * as XLSX from 'xlsx';
 import { processFile } from '../utils/fileProcessor';
 
-// Main component
 export default function BoxweaverCalculator() {
   const [file, setFile] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -12,7 +11,6 @@ export default function BoxweaverCalculator() {
   const [dimensionTolerance, setDimensionTolerance] = useState(0.5);
   const [weightTolerance, setWeightTolerance] = useState(0);
 
-  // Add Nimbus Sans Extended font
   React.useEffect(() => {
     const style = document.createElement('style');
     style.textContent = `
@@ -35,9 +33,9 @@ export default function BoxweaverCalculator() {
 
     // Boxes sheet
     const boxesData = [
-      { BoxType: 'Small', Height: 20, Width: 15, Length: 25, MaxWeight: 30 },
-      { BoxType: 'Medium', Height: 30, Width: 25, Length: 35, MaxWeight: 50 },
-      { BoxType: 'Large', Height: 40, Width: 35, Length: 45, MaxWeight: 70 },
+      { BoxType: 'Small', Height: 9, Width: 12, Length: 9, MaxWeight: 50 },
+      { BoxType: 'Medium', Height: 12, Width: 18, Length: 12, MaxWeight: 50 },
+      { BoxType: 'Large', Height: 18, Width: 24, Length: 18, MaxWeight: 50 },
     ];
     const boxesSheet = XLSX.utils.json_to_sheet(boxesData);
     XLSX.utils.book_append_sheet(wb, boxesSheet, 'Boxes');
