@@ -1,3 +1,4 @@
+
 import * as XLSX from 'xlsx';
 import { Bin3D, findMaxCapacity } from './binPacking';
 
@@ -62,4 +63,3 @@ export async function processFile(file, dimensionTolerance, weightTolerance, onP
 
   return processedResults;
 }
-

@@ -57,11 +57,45 @@ export default function BoxweaverCalculator() {
     XLSX.writeFile(wb, 'box_capacity_template.xlsx');
   };
 
+  const validateFile = (uploadedFile) => {
+    // Check file size (5MB limit)
+    const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
+    if (uploadedFile.size > maxSizeInBytes) {
+      throw new Error('File size exceeds 5MB limit. Please choose a smaller file.');
+    }
+
+    // Check MIME type for Excel files
+    const allowedMimeTypes = [
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // .xlsx
+      'application/vnd.ms-excel', // .xls
+      'application/octet-stream' // Some browsers report this for Excel files
+    ];
+
+    const allowedExtensions = ['.xlsx', '.xls'];
+    const fileExtension = uploadedFile.name.toLowerCase().slice(uploadedFile.name.lastIndexOf('.'));
+
+    const isMimeTypeValid = allowedMimeTypes.includes(uploadedFile.type);
+    const isExtensionValid = allowedExtensions.includes(fileExtension);
+
+    if (!isMimeTypeValid && !isExtensionValid) {
+      throw new Error('Invalid file type. Please upload an Excel file (.xlsx or .xls).');
+    }
+
+    return true;
+  };
+
   const handleFileUpload = (e) => {
     const uploadedFile = e.target.files[0];
     if (uploadedFile) {
-      setFile(uploadedFile);
-      setResults(null);
+      try {
+        validateFile(uploadedFile);
+        setFile(uploadedFile);
+        setResults(null);
+      } catch (error) {
+        alert(error.message);
+        // Clear the input
+        e.target.value = '';
+      }
     }
   };
 
@@ -224,7 +258,7 @@ export default function BoxweaverCalculator() {
               Upload Excel File
               <input
                 type="file"
-                accept=".xlsx,.xls"
+                accept=".xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
                 onChange={handleFileUpload}
                 className="hidden"
               />
