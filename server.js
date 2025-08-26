@@ -1,4 +1,3 @@
-
 const express = require('express');
 const path = require('path');
 const app = express();
@@ -12,7 +11,7 @@ app.use(express.static(path.join(__dirname, 'build')));
 // Login endpoint
 app.post('/api/login', (req, res) => {
   const { username, password } = req.body;
-  
+
   const validUsername = process.env.LOGIN_USERNAME;
   const validPassword = process.env.LOGIN_PASSWORD;
 
@@ -20,11 +19,11 @@ app.post('/api/login', (req, res) => {
     LOGIN_USERNAME: process.env.LOGIN_USERNAME,
     LOGIN_PASSWORD: process.env.LOGIN_PASSWORD ? '[HIDDEN]' : undefined
   });
-  console.log('Login attempt:', { 
-    username, 
+  console.log('Login attempt:', {
+    username,
     password: password ? '[HIDDEN]' : undefined,
-    hasValidUsername: !!validUsername, 
-    hasValidPassword: !!validPassword 
+    hasValidUsername: !!validUsername,
+    hasValidPassword: !!validPassword
   });
 
   if (username === validUsername && password === validPassword) {
@@ -34,8 +33,8 @@ app.post('/api/login', (req, res) => {
   }
 });
 
-// Serve React app for all other routes - using a more specific pattern
-app.get('*', (req, res) => {
+// Serve React app for all other routes (Express 5 compatible)
+app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
