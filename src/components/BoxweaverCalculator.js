@@ -10,6 +10,7 @@ export default function BoxweaverCalculator() {
   const [results, setResults] = useState(null);
   const [dimensionTolerance, setDimensionTolerance] = useState(0.25);
   const [weightTolerance, setWeightTolerance] = useState(5);
+  const [uploadError, setUploadError] = useState(null);
 
   React.useEffect(() => {
     const style = document.createElement('style');
@@ -58,11 +59,79 @@ export default function BoxweaverCalculator() {
   };
 
   const handleFileUpload = (e) => {
-    const uploadedFile = e.target.files[0];
-    if (uploadedFile) {
-      setFile(uploadedFile);
+    const input = e.target;
+    const uploadedFile = input.files[0];
+    if (!uploadedFile) return;
+
+    const allowedTypes = [
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'application/vnd.ms-excel',
+    ];
+    const maxSize = 5 * 1024 * 1024; // 5MB
+
+    if (!allowedTypes.includes(uploadedFile.type)) {
+      setUploadError('Please upload a valid Excel file (.xlsx or .xls).');
+      setFile(null);
       setResults(null);
+      input.value = '';
+      return;
     }
+
+    if (uploadedFile.size > maxSize) {
+      setUploadError('File is too large. Please upload a file smaller than 5 MB.');
+      setFile(null);
+      setResults(null);
+      input.value = '';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      try {
+        const data = new Uint8Array(evt.target.result);
+        const workbook = XLSX.read(data, { type: 'array' });
+        const itemsSheet = workbook.Sheets['Items'];
+        const boxesSheet = workbook.Sheets['Boxes'];
+        if (!itemsSheet || !boxesSheet) {
+          throw new Error('Workbook must contain "Items" and "Boxes" sheets.');
+        }
+
+        const itemsHeader = XLSX.utils.sheet_to_json(itemsSheet, { header: 1 })[0] || [];
+        const boxesHeader = XLSX.utils.sheet_to_json(boxesSheet, { header: 1 })[0] || [];
+        const requiredItemColumns = ['SKU', 'Height', 'Width', 'Length', 'Weight'];
+        const requiredBoxColumns = ['BoxType', 'Height', 'Width', 'Length', 'MaxWeight'];
+        const hasItemColumns = requiredItemColumns.every((col) => itemsHeader.includes(col));
+        const hasBoxColumns = requiredBoxColumns.every((col) => boxesHeader.includes(col));
+        if (!hasItemColumns || !hasBoxColumns) {
+          throw new Error('Missing required columns in Items or Boxes sheet.');
+        }
+
+        const items = XLSX.utils.sheet_to_json(itemsSheet, { defval: null });
+        const boxes = XLSX.utils.sheet_to_json(boxesSheet, { defval: null });
+        const numericItemFields = ['Height', 'Width', 'Length', 'Weight'];
+        const numericBoxFields = ['Height', 'Width', 'Length', 'MaxWeight'];
+        const isPositiveNumber = (val) => typeof val === 'number' && !isNaN(val) && val > 0;
+        const itemsValid = items.every((row) =>
+          numericItemFields.every((field) => isPositiveNumber(row[field]))
+        );
+        const boxesValid = boxes.every((row) =>
+          numericBoxFields.every((field) => isPositiveNumber(row[field]))
+        );
+        if (!itemsValid || !boxesValid) {
+          throw new Error('All dimensions and weights must be valid positive numbers.');
+        }
+
+        setFile(uploadedFile);
+        setResults(null);
+        setUploadError(null);
+      } catch (err) {
+        setUploadError(err.message);
+        setFile(null);
+        setResults(null);
+        input.value = '';
+      }
+    };
+    reader.readAsArrayBuffer(uploadedFile);
   };
 
   const handleProcessFile = async () => {
@@ -230,6 +299,12 @@ export default function BoxweaverCalculator() {
               />
             </label>
           </div>
+
+          {uploadError && (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+              <p className="text-red-800">{uploadError}</p>
+            </div>
+          )}
 
           {/* File Status */}
           {file && (
