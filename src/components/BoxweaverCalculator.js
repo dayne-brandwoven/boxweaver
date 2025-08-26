@@ -188,9 +188,9 @@ export default function BoxweaverCalculator() {
             <h2 className="text-lg font-semibold mb-3" style={{ color: '#00435B' }}>How to use:</h2>
             <ol className="space-y-2" style={{ color: '#00435B' }}>
               <li>1. Download the Excel template using the button below</li>
-              <li>2. Fill in your item dimensions and weights in the "Items" sheet (max 1000 rows)</li>
-              <li>3. Define your box sizes and weight limits in the "Boxes" sheet (max 1000 rows)</li>
-              <li>4. Upload the completed template (max 5MB, Excel files only)</li>
+              <li>2. Fill in your item dimensions and weights in the "Items" sheet</li>
+              <li>3. Define your box sizes and weight limits in the "Boxes" sheet</li>
+              <li>4. Upload the completed template (5 MB max: xls. or xlsx. file type)</li>
               <li>5. Click "Run Calculation" to process</li>
               <li>6. Download the results showing maximum units per box type</li>
             </ol>
