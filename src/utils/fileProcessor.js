@@ -16,6 +16,15 @@ export async function processFile(file, dimensionTolerance, weightTolerance, onP
   const items = XLSX.utils.sheet_to_json(itemsSheet);
   const boxes = XLSX.utils.sheet_to_json(boxesSheet);
 
+  // Check row limits
+  if (items.length > 1000) {
+    throw new Error(`Too many items: ${items.length} rows. Maximum allowed is 1000 rows.`);
+  }
+
+  if (boxes.length > 1000) {
+    throw new Error(`Too many boxes: ${boxes.length} rows. Maximum allowed is 1000 rows.`);
+  }
+
   const totalOperations = items.length * boxes.length;
   let currentOperation = 0;
 
