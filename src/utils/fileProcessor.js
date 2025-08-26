@@ -63,3 +63,58 @@ export async function processFile(file, dimensionTolerance, weightTolerance, onP
   return processedResults;
 }
 
+import * as XLSX from 'xlsx';
+import { calculateBoxCapacity } from './binPacking';
+
+export const processFile = async (file, dimensionTolerance, weightTolerance, setProgress) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    
+    reader.onload = (e) => {
+      try {
+        setProgress(10);
+        
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, { type: 'array' });
+        
+        setProgress(30);
+        
+        const itemsSheet = workbook.Sheets['Items'];
+        const boxesSheet = workbook.Sheets['Boxes'];
+        
+        if (!itemsSheet || !boxesSheet) {
+          throw new Error('Required sheets "Items" and "Boxes" not found');
+        }
+        
+        const items = XLSX.utils.sheet_to_json(itemsSheet);
+        const boxes = XLSX.utils.sheet_to_json(boxesSheet);
+        
+        setProgress(50);
+        
+        // Process each item against each box type
+        const results = items.map(item => {
+          const result = { SKU: item.SKU };
+          
+          boxes.forEach(box => {
+            const capacity = calculateBoxCapacity(item, box, dimensionTolerance, weightTolerance);
+            result[`Units_in_${box.BoxType}`] = capacity;
+          });
+          
+          return result;
+        });
+        
+        setProgress(100);
+        resolve(results);
+        
+      } catch (error) {
+        reject(error);
+      }
+    };
+    
+    reader.onerror = () => {
+      reject(new Error('Failed to read file'));
+    };
+    
+    reader.readAsArrayBuffer(file);
+  });
+};

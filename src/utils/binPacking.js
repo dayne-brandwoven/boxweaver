@@ -207,3 +207,37 @@ export function findMaxCapacity(bin, itemTemplate, maxAttempts = 1000) {
   return bestFit;
 }
 
+export const calculateBoxCapacity = (item, box, dimensionTolerance = 0, weightTolerance = 0) => {
+  // Apply tolerances to box dimensions and weight
+  const adjustedBoxHeight = box.Height - dimensionTolerance;
+  const adjustedBoxWidth = box.Width - dimensionTolerance;
+  const adjustedBoxLength = box.Length - dimensionTolerance;
+  const adjustedMaxWeight = box.MaxWeight - weightTolerance;
+  
+  // Check if item dimensions are valid
+  if (item.Height <= 0 || item.Width <= 0 || item.Length <= 0 || item.Weight <= 0) {
+    return 0;
+  }
+  
+  // Check if item can fit in box at all
+  if (item.Height > adjustedBoxHeight || 
+      item.Width > adjustedBoxWidth || 
+      item.Length > adjustedBoxLength ||
+      item.Weight > adjustedMaxWeight) {
+    return 0;
+  }
+  
+  // Calculate how many items can fit in each dimension
+  const unitsHeight = Math.floor(adjustedBoxHeight / item.Height);
+  const unitsWidth = Math.floor(adjustedBoxWidth / item.Width);
+  const unitsLength = Math.floor(adjustedBoxLength / item.Length);
+  
+  // Calculate total units that can fit by volume
+  const unitsByVolume = unitsHeight * unitsWidth * unitsLength;
+  
+  // Calculate units that can fit by weight
+  const unitsByWeight = Math.floor(adjustedMaxWeight / item.Weight);
+  
+  // Return the minimum (limiting factor)
+  return Math.min(unitsByVolume, unitsByWeight);
+};
