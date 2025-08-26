@@ -63,9 +63,6 @@ export async function processFile(file, dimensionTolerance, weightTolerance, onP
   return processedResults;
 }
 
-import * as XLSX from 'xlsx';
-import { calculateBoxCapacity } from './binPacking';
-
 export const processFile = async (file, dimensionTolerance, weightTolerance, setProgress) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
