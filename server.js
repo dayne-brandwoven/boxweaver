@@ -5,6 +5,8 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
+
+// Serve static files from build directory
 app.use(express.static(path.join(__dirname, 'build')));
 
 // Login endpoint
@@ -32,8 +34,8 @@ app.post('/api/login', (req, res) => {
   }
 });
 
-// Serve React app for all other routes
-app.get('/*', (req, res) => {
+// Serve React app for all other routes - using a more specific pattern
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
