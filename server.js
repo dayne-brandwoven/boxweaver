@@ -14,7 +14,16 @@ app.post('/api/login', (req, res) => {
   const validUsername = process.env.LOGIN_USERNAME;
   const validPassword = process.env.LOGIN_PASSWORD;
 
-  console.log('Login attempt:', { username, hasValidUsername: !!validUsername, hasValidPassword: !!validPassword });
+  console.log('Environment check:', {
+    LOGIN_USERNAME: process.env.LOGIN_USERNAME,
+    LOGIN_PASSWORD: process.env.LOGIN_PASSWORD ? '[HIDDEN]' : undefined
+  });
+  console.log('Login attempt:', { 
+    username, 
+    password: password ? '[HIDDEN]' : undefined,
+    hasValidUsername: !!validUsername, 
+    hasValidPassword: !!validPassword 
+  });
 
   if (username === validUsername && password === validPassword) {
     res.json({ success: true });
