@@ -14,8 +14,14 @@ export default function BoxweaverCalculator() {
   React.useEffect(() => {
     const style = document.createElement('style');
     style.textContent = `
-      @import url('https://fonts.googleapis.com/css2?family=Nimbus+Sans:wght@400&display=swap');
-      body { font-family: 'Nimbus Sans', sans-serif; }
+      @font-face {
+        font-family: 'Nimbus Sans Extended Light';
+        src: url('/fonts/NimbusSanExt-Lig.otf') format('opentype');
+        font-weight: 300;
+        font-style: normal;
+        font-display: swap;
+      }
+      body { font-family: 'Nimbus Sans Extended Light', 'Nimbus Sans', Arial, sans-serif; }
     `;
     document.head.appendChild(style);
   }, []);
@@ -83,9 +89,9 @@ export default function BoxweaverCalculator() {
   };
 
   return (
-    <div className="min-h-screen p-8" style={{ backgroundColor: '#FEFEFB', fontFamily: 'Nimbus Sans, Arial, sans-serif' }}>
+    <div className="min-h-screen p-8" style={{ backgroundColor: '#FEFEFB', fontFamily: "'Nimbus Sans Extended Light', 'Nimbus Sans', Arial, sans-serif" }}>
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-xl shadow-xl p-8" style={{ fontFamily: 'Nimbus Sans, Arial, sans-serif' }}>
+        <div className="bg-white rounded-xl shadow-xl p-8" style={{ fontFamily: "'Nimbus Sans Extended Light', 'Nimbus Sans', Arial, sans-serif" }}>
           <div className="text-center mb-8">
             <div className="flex flex-col items-center">
               <div className="flex items-center gap-3 mb-3">
