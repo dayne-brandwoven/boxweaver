@@ -12,18 +12,13 @@ app.use(express.static(path.join(__dirname, 'build')));
 app.post('/api/login', (req, res) => {
   const { username, password } = req.body;
 
-  const validUsername = process.env.LOGIN_USERNAME;
-  const validPassword = process.env.LOGIN_PASSWORD;
+  // Hardcoded credentials for testing
+  const validUsername = 'team123';
+  const validPassword = 'password123';
 
-  console.log('Environment check:', {
-    LOGIN_USERNAME: process.env.LOGIN_USERNAME,
-    LOGIN_PASSWORD: process.env.LOGIN_PASSWORD ? '[HIDDEN]' : undefined
-  });
   console.log('Login attempt:', {
     username,
-    password: password ? '[HIDDEN]' : undefined,
-    hasValidUsername: !!validUsername,
-    hasValidPassword: !!validPassword
+    password: password ? '[HIDDEN]' : undefined
   });
 
   if (username === validUsername && password === validPassword) {
