@@ -4,7 +4,7 @@ import * as XLSX from 'xlsx';
 import { processFile } from '../utils/fileProcessor';
 
 // Main component
-export default function BoxCapacityCalculator() {
+export default function BoxweaverCalculator() {
   const [file, setFile] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
