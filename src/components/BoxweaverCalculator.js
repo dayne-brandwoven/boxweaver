@@ -21,7 +21,14 @@ export default function BoxweaverCalculator() {
         font-style: normal;
         font-display: swap;
       }
-      body { font-family: 'Nimbus Sans Extended Light', 'Nimbus Sans', Arial, sans-serif; }
+      @font-face {
+        font-family: 'Aleo Light';
+        src: url('/fonts/Aleo-Light.ttf') format('truetype');
+        font-weight: 300;
+        font-style: normal;
+        font-display: swap;
+      }
+      body { font-family: 'Aleo Light', 'Aleo', Georgia, serif; }
     `;
     document.head.appendChild(style);
   }, []);
@@ -89,14 +96,14 @@ export default function BoxweaverCalculator() {
   };
 
   return (
-    <div className="min-h-screen p-8" style={{ backgroundColor: '#FEFEFB', fontFamily: "'Nimbus Sans Extended Light', 'Nimbus Sans', Arial, sans-serif" }}>
+    <div className="min-h-screen p-8" style={{ backgroundColor: '#FEFEFB', fontFamily: "'Aleo Light', 'Aleo', Georgia, serif" }}>
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-xl shadow-xl p-8" style={{ fontFamily: "'Nimbus Sans Extended Light', 'Nimbus Sans', Arial, sans-serif" }}>
+        <div className="bg-white rounded-xl shadow-xl p-8" style={{ fontFamily: "'Aleo Light', 'Aleo', Georgia, serif" }}>
           <div className="text-center mb-8">
             <div className="flex flex-col items-center">
               <div className="flex items-center gap-3 mb-3">
                 <Box style={{ color: '#F5683A' }} size={40} />
-                <h1 className="text-5xl font-bold" style={{ color: '#00435B', letterSpacing: '0.05em' }}>
+                <h1 className="text-5xl font-bold" style={{ color: '#00435B', letterSpacing: '0.05em', fontFamily: "'Nimbus Sans Extended Light', 'Nimbus Sans', Arial, sans-serif" }}>
                   BOXWEAVER
                 </h1>
               </div>
