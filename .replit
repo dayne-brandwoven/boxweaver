@@ -13,7 +13,7 @@ localPort = 3000
 externalPort = 80
 
 [workflows]
-runButton = "Run Server"
+runButton = "Run App"
 
 [[workflows.workflow]]
 name = "Run Server"
@@ -27,3 +27,12 @@ args = "npm start"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "node server.js"
+
+[[workflows.workflow]]
+name = "Run App"
+author = 38376475
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm start"

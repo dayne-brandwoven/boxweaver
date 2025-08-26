@@ -3,7 +3,7 @@ import { Upload, Download, Play, Box, FileSpreadsheet, Settings } from 'lucide-r
 import * as XLSX from 'xlsx';
 import { processFile } from '../utils/fileProcessor';
 
-export default function BoxweaverCalculator({ onLogout }) {
+export default function BoxweaverCalculator() {
   const [file, setFile] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -134,14 +134,6 @@ export default function BoxweaverCalculator({ onLogout }) {
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-xl shadow-xl p-8" style={{ fontFamily: "'Aleo Light', 'Aleo', Georgia, serif" }}>
           <div className="text-center mb-8">
-            <div className="flex justify-end mb-4">
-              <button
-                onClick={onLogout}
-                className="text-sm text-gray-600 hover:text-gray-800 underline"
-              >
-                Logout
-              </button>
-            </div>
             <div className="flex flex-col items-center">
               <div className="flex items-center gap-3 mb-3">
                 <Box style={{ color: '#F5683A' }} size={40} />
