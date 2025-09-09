@@ -9,7 +9,7 @@ export default function BoxweaverCalculator() {
   const [progress, setProgress] = useState(0);
   const [results, setResults] = useState(null);
   const [dimensionTolerance, setDimensionTolerance] = useState(0.25);
-  const [weightTolerance, setWeightTolerance] = useState(5);
+  const [weightTolerance, setWeightTolerance] = useState(3);
 
   React.useEffect(() => {
     const style = document.createElement('style');
