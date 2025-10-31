@@ -176,6 +176,10 @@ export function findMaxCapacity(bin, itemTemplate, maxAttempts = 1000) {
   const maxByWeight = Math.floor(bin.maxWeight / itemTemplate.weight);
   high = Math.min(high, maxByWeight);
 
+  // Cap maximum units at 150 per case
+  const maxUnitsPerCase = 150;
+  high = Math.min(high, maxUnitsPerCase);
+
   while (low <= high) {
     const mid = Math.floor((low + high) / 2);
     bin.reset();

@@ -111,17 +111,17 @@ export async function processFile(file, dimensionTolerance, weightTolerance, onP
   // Define validation schemas
   const itemSchema = {
     SKU: { type: 'string', required: true },
-    Height: { type: 'number', required: true, min: 0.1, max: 1000 },
-    Width: { type: 'number', required: true, min: 0.1, max: 1000 },
-    Length: { type: 'number', required: true, min: 0.1, max: 1000 },
-    Weight: { type: 'number', required: true, min: 0.01, max: 10000 }
+    Height: { type: 'number', required: true, min: 1, max: 1000 },
+    Width: { type: 'number', required: true, min: 1, max: 1000 },
+    Length: { type: 'number', required: true, min: 1, max: 1000 },
+    Weight: { type: 'number', required: true, min: 0.1, max: 10000 }
   };
 
   const boxSchema = {
     BoxType: { type: 'string', required: true },
-    Height: { type: 'number', required: true, min: 0.1, max: 1000 },
-    Width: { type: 'number', required: true, min: 0.1, max: 1000 },
-    Length: { type: 'number', required: true, min: 0.1, max: 1000 },
+    Height: { type: 'number', required: true, min: 1, max: 1000 },
+    Width: { type: 'number', required: true, min: 1, max: 1000 },
+    Length: { type: 'number', required: true, min: 1, max: 1000 },
     MaxWeight: { type: 'number', required: true, min: 0.1, max: 10000 }
   };
 
